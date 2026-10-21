@@ -1,0 +1,45 @@
+Category,Part,Qty,Package,Voltage,Function
+Logic,74HCT00,10,DIP-14,5V,Quad NAND
+Logic,74HCT02,6,DIP-14,5V,Quad NOR
+Logic,74HCT04,8,DIP-14,5V,Hex inverter
+Logic,74HCT08,10,DIP-14,5V,Quad AND
+Logic,74HCT32,8,DIP-14,5V,Quad OR
+Logic,74HCT86,8,DIP-14,5V,Quad XOR
+Mux,74HCT157,12,DIP-16,5V,Quad 2:1 multiplexer
+Decode,74HCT138,8,DIP-16,5V,3-to-8 decoder
+Decode,74HCT139,4,DIP-16,5V,Dual 2-to-4 decoder
+Bus,74HCT245,12,DIP-20,5V,Octal bidirectional transceiver
+Buffer,74HCT244,8,DIP-20,5V,Octal buffer
+Register,74HCT273,8,DIP-20,5V,Octal register
+Register,74HCT574,8,DIP-20,5V,Octal tri-state register
+Shift,74HCT595,8,DIP-16,5V,Serial-in parallel-out
+Shift,74HCT165,8,DIP-16,5V,Parallel-in serial-out
+Counter,74HC161,8,DIP-16,5V,4-bit synchronous counter
+Counter,74HC163,8,DIP-16,5V,4-bit synchronous counter
+Counter,74HC4040,4,DIP-16,5V,12-stage binary counter
+FlipFlop,74HC74,8,DIP-14,5V,Dual D flip-flop
+Counter,74HC393,4,DIP-14,5V,Dual 4-bit counter
+Schmitt,74HCT14,8,DIP-14,5V,Schmitt inverter
+Memory,Parallel SRAM module,2,Module,3.3/5V,Low-speed external memory
+Memory,28C-series EEPROM,2,DIP/Module,5V,Firmware storage
+Nonvolatile,SPI FRAM module,1,Module,3.3V,Configuration storage
+Clock,1MHz oscillator,1,Module,5V,Initial clock
+Clock,10MHz oscillator,1,Module,3.3V/5V,Expanded clock
+Power,5V regulated supply,1,Module,5V,Logic rail
+Power,3.3V regulated supply,1,Module,3.3V,Modern I/O rail
+Protection,0.1uF ceramic capacitor,100,Through-hole,5V,IC decoupling
+Protection,10uF electrolytic,20,Through-hole,5V,Local bulk bypass
+Protection,470uF electrolytic,4,Through-hole,5V,Power rail filtering
+LED,Red LED,16,5mm,2V typ,Address display
+LED,Yellow LED,16,5mm,2V typ,Data/control display
+LED,Green LED,8,5mm,2V typ,System status
+LED,Blue LED,8,5mm,3V typ,Peripheral status
+Resistor,330 ohm,64,Through-hole,Passive,LED current limiting
+Resistor,1K ohm,20,Through-hole,Passive,Signal/LED conditioning
+Resistor,4.7K ohm,20,Through-hole,Passive,Open-drain pullups
+Resistor,10K ohm,50,Through-hole,Passive,Switch/reset pullups
+Resistor,47K ohm,20,Through-hole,Passive,Weak configuration pulls
+Input,Toggle switch,24,Through-hole,Passive,Address/data/control input
+Input,Pushbutton,6,Through-hole,Passive,Reset/step/load controls
+Interface,USB UART bridge,1,Module,3.3V,Serial console
+Interface,MAX3232 module,1,Module,3.3V,RS-232 interface
