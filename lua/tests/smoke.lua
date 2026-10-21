@@ -1,0 +1,13 @@
+local Computer = require('lua.core.computer')
+
+local c = Computer(4096)
+c.memory:write64(0x100, 0x1122334455667788)
+assert(c.memory:read64(0x100) == 0x1122334455667788)
+c.memory:write8(0, 0x90)
+c.memory:write8(1, 0xF4)
+c:reset(0)
+c:tick()
+assert(c.cpu.halted == false)
+c:tick()
+assert(c.cpu.halted == true)
+print('Lua smoke tests: PASS')
