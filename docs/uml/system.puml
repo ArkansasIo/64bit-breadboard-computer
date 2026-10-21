@@ -1,0 +1,26 @@
+@startuml
+title 64-bit x86-64 Breadboard Computer
+node "x86-64 Compute Module" as CPU
+node "Module Interface Adapter" as IF
+node "Breadboard Chipset" as CHIP
+database "Firmware ROM/Flash" as ROM
+database "System RAM" as RAM
+component UART
+component GPIO
+component Timer
+component "Interrupt Router" as IRQ
+component "Front Panel" as PANEL
+CPU --> IF
+IF --> CHIP
+CHIP --> ROM
+CHIP --> RAM
+CHIP --> UART
+CHIP --> GPIO
+CHIP --> Timer
+UART --> IRQ
+GPIO --> IRQ
+Timer --> IRQ
+IRQ --> CHIP
+GPIO --> PANEL
+CHIP --> PANEL
+@enduml
