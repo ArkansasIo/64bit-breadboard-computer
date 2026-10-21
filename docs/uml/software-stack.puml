@@ -1,0 +1,12 @@
+@startuml
+title Software Stack
+rectangle "Application / diagnostics" as APP
+rectangle "Monitor / runtime" as RT
+rectangle "Platform firmware / loader" as FW
+rectangle "x86-64 assembly and compiled code" as ASM
+rectangle "CPU module and hardware" as HW
+APP --> RT
+RT --> FW
+FW --> ASM
+ASM --> HW
+@enduml
