@@ -1,0 +1,14 @@
+@startuml
+title Logical Peripheral Transaction
+participant "CPU/platform" as CPU
+participant "Interface adapter" as IF
+participant "Address decoder" as DEC
+participant "Selected device" as DEV
+CPU -> IF: address and operation
+IF -> DEC: logical transaction
+DEC -> DEC: decode one target
+DEC -> DEV: select/handshake
+DEV --> IF: data/completion
+IF --> CPU: return data/completion
+DEC -> DEV: release select
+@enduml
