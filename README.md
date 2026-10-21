@@ -1,8 +1,8 @@
 # 64-bit x86-64 Breadboard Computer
 
-An educational 64-bit x86-64 computer project built around an x86-64 compute module and a visible breadboard chipset/backplane. The project includes architecture documentation, hardware plans, NASM assembly examples, firmware scaffolding, and UML diagrams.
+An educational 64-bit x86-64 computer project built around an x86-64 compute module and a visible breadboard chipset/backplane. The project includes architecture documentation, hardware plans, NASM assembly, assembly logic macros, an educational Lua object-oriented runtime/model, firmware scaffolding, UML diagrams, and CI validation.
 
-> **Important architectural constraint:** Building a complete modern x86-64 processor from discrete breadboard logic is not a practical project. This design uses an x86-64 compute module for instruction execution and puts the educational, observable circuitry—clock/reset, interfaces, memory/peripheral decode, GPIO, UART, timers, interrupt routing, test points, and front panel—on modular breadboards.
+> **Architectural constraint:** A complete modern x86-64 processor implemented from discrete breadboard logic is not a practical build. This project uses an x86-64 compute module for instruction execution and puts the educational, observable circuitry—clock/reset, interfaces, peripheral decode, GPIO, UART, timers, interrupt routing, test points, and front panel—on modular breadboards.
 
 ## Project layout
 
@@ -10,36 +10,84 @@ An educational 64-bit x86-64 computer project built around an x86-64 compute mod
 .
 ├── README.md
 ├── LICENSE
+├── Makefile
+├── CONTRIBUTING.md
 ├── docs/
 │   ├── ARCHITECTURE.md
 │   ├── HARDWARE.md
 │   ├── BUS.md
 │   ├── MEMORY_MAP.md
+│   ├── REGISTER_MAP.md
 │   ├── CPU_INTERFACE.md
 │   ├── FRONT_PANEL.md
 │   ├── FIRMWARE.md
 │   ├── ASSEMBLY.md
+│   ├── ASM_LOGIC.md
+│   ├── LUA_OOP.md
 │   ├── TOOLCHAIN.md
 │   ├── DEBUGGING.md
 │   ├── BUILD_PLAN.md
 │   ├── BOM.md
 │   ├── SAFETY.md
-│   └── uml/
-│       ├── system.puml
-│       ├── boot-sequence.puml
-│       ├── bus.puml
-│       └── software-stack.puml
+│   ├── VALIDATION.md
+│   ├── SOURCE_TREE.md
+│   └── uml/*.puml
 ├── asm/
 │   ├── boot/stage1.asm
-│   ├── examples/hello_serial.asm
-│   ├── examples/gpio.asm
-│   ├── examples/fibonacci.asm
-│   └── include/hardware.inc
+│   ├── examples/
+│   │   ├── fibonacci.asm
+│   │   ├── gpio.asm
+│   │   ├── hello_serial.asm
+│   │   ├── logic.asm
+│   │   └── oop_device.asm
+│   ├── include/
+│   │   ├── hardware.inc
+│   │   ├── logic.inc
+│   │   └── oop.inc
+│   └── lib/
+│       ├── memory.asm
+│       └── string.asm
+├── lua/
+│   ├── class.lua
+│   ├── monitor.lua
+│   ├── core/*.lua
+│   ├── devices/*.lua
+│   ├── examples/*.lua
+│   └── tests/smoke.lua
 ├── firmware/linker.ld
-├── hardware/schematics/README.md
-├── hardware/wiring/README.md
-└── tools/README.md
+├── hardware/
+└── tools/
 ```
+
+## Assembly programming
+
+The assembly layer is NASM x86-64 syntax. It contains bit logic, min/max/clamp macros, memory/string routines, MMIO examples, and a vtable-style object-oriented assembly example.
+
+```bash
+nasm -f elf64 asm/examples/logic.asm -o build/logic.o
+nasm -f elf64 asm/examples/oop_device.asm -o build/oop_device.o
+```
+
+The MMIO addresses in examples are illustrative and must not be used on an arbitrary PC.
+
+## Lua object-oriented programming
+
+Lua 5.4 provides the high-level model/test layer. `lua/class.lua` implements a small inheritance helper using tables and metatables. CPU, bus, memory, UART, GPIO, timer, monitor, and computer objects are composed under `lua/core/` and `lua/devices/`.
+
+```bash
+lua lua/examples/oop_demo.lua
+lua lua/tests/smoke.lua
+```
+
+The Lua CPU is intentionally a small educational model and does **not** implement the complete Intel 64 ISA. The physical system still requires a real x86-64 compute module.
+
+## Build and test
+
+```bash
+make test
+```
+
+GitHub Actions assembles the NASM sources, checks the 512-byte bootstrap scaffold, and runs the Lua examples and smoke test.
 
 ## System overview
 
@@ -63,33 +111,25 @@ An educational 64-bit x86-64 computer project built around an x86-64 compute mod
                          Front panel/debug
 ```
 
-## Software
-
-The example source uses NASM syntax. A hosted ELF program can be assembled with:
-
-```bash
-nasm -f elf64 program.asm -o program.o
-ld program.o -o program
-```
-
-A raw ROM image requires a platform-specific linker/packaging flow. The included bootstrap is a scaffold, not a universal x86-64 firmware image. See [docs/TOOLCHAIN.md](docs/TOOLCHAIN.md) and [docs/FIRMWARE.md](docs/FIRMWARE.md).
-
 ## Hardware status
 
-This repository defines a design baseline, not a validated pin-by-pin build. Before fabricating or wiring the system, choose the exact x86-64 module and check its datasheets for electrical levels, memory interface, reset, clocks, timing, interrupt behavior, and boot requirements. Do not wire generic logical signals directly to processor pins without an interface specification.
+This repository defines a design baseline, not a validated pin-by-pin build. Before fabrication, select the exact x86-64 module and verify its electrical levels, memory interface, reset, clocks, timing, interrupt behavior, thermal requirements, and boot requirements from its manufacturer documentation. Never wire generic logical signals directly to processor pins without a verified interface design.
 
 ## Documentation
 
 - [Architecture](docs/ARCHITECTURE.md)
-- [Hardware design](docs/HARDWARE.md)
-- [Bus architecture](docs/BUS.md)
+- [Hardware](docs/HARDWARE.md)
+- [Bus](docs/BUS.md)
 - [Memory map](docs/MEMORY_MAP.md)
+- [Register map](docs/REGISTER_MAP.md)
 - [CPU interface](docs/CPU_INTERFACE.md)
-- [Assembly programming](docs/ASSEMBLY.md)
+- [Assembly](docs/ASSEMBLY.md)
+- [Assembly logic](docs/ASM_LOGIC.md)
+- [Lua OOP](docs/LUA_OOP.md)
 - [Firmware](docs/FIRMWARE.md)
 - [Build plan](docs/BUILD_PLAN.md)
-- [Bill of materials](docs/BOM.md)
-- [Electrical safety](docs/SAFETY.md)
+- [Validation](docs/VALIDATION.md)
+- [Source tree](docs/SOURCE_TREE.md)
 - [UML diagrams](docs/uml/)
 
 ## Development phases
@@ -97,8 +137,8 @@ This repository defines a design baseline, not a validated pin-by-pin build. Bef
 1. Select CPU/compute module and freeze electrical interface.
 2. Build and validate power, clock, and reset.
 3. Add memory and address decode.
-4. Add UART and a minimal console.
+4. Add UART and minimal console.
 5. Add GPIO/front-panel controls.
 6. Add timer and interrupt tests.
-7. Add expansion interfaces and improve diagnostics.
+7. Add expansion interfaces and diagnostics.
 8. Record measurements, photos, exact part numbers, and revisioned schematics.
