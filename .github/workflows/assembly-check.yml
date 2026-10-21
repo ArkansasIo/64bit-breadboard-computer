@@ -1,4 +1,4 @@
-name: Assembly Checks
+name: Assembly and Lua Checks
 
 on:
   push:
@@ -7,24 +7,35 @@ on:
   workflow_dispatch:
 
 jobs:
-  nasm-check:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install NASM
+      - name: Install NASM and Lua
         run: |
           sudo apt-get update
-          sudo apt-get install -y nasm
-      - name: Assemble standalone examples
+          sudo apt-get install -y nasm lua5.4
+      - name: Assemble source files
         run: |
           mkdir -p build
           nasm -f elf64 asm/examples/fibonacci.asm -o build/fibonacci.o
-      - name: Check bootstrap scaffold syntax
+          nasm -f elf64 asm/examples/logic.asm -o build/logic.o
+          nasm -f elf64 asm/examples/oop_device.asm -o build/oop_device.o
+          nasm -f elf64 asm/lib/memory.asm -o build/memory.o
+          nasm -f elf64 asm/lib/string.asm -o build/string.o
+      - name: Check bootstrap scaffold
         run: |
           nasm -f bin asm/boot/stage1.asm -o build/stage1.bin
           test "$(wc -c < build/stage1.bin)" -eq 512
-      - name: Upload assembly outputs
+      - name: Run Lua examples and tests
+        env:
+          LUA_PATH: "./?.lua;./?/init.lua;./lua/?.lua;./lua/?/init.lua;;"
+        run: |
+          lua5.4 lua/examples/oop_demo.lua
+          lua5.4 lua/examples/computer_demo.lua
+          lua5.4 lua/tests/smoke.lua
+      - name: Upload build outputs
         uses: actions/upload-artifact@v4
         with:
-          name: x86-64-assembly-checks
+          name: x86-64-build-checks
           path: build/
