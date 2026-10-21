@@ -1,0 +1,12 @@
+@startuml
+title Conceptual Boot Sequence
+[*] --> Reset
+Reset --> PlatformFirmware
+PlatformFirmware --> MemoryCheck
+MemoryCheck --> UARTInit
+UARTInit --> GPIOInit
+GPIOInit --> TimerTest
+TimerTest --> InterruptTest
+InterruptTest --> MonitorReady
+MonitorReady --> [*]
+@enduml
