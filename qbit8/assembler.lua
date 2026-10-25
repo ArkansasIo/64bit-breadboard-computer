@@ -1,6 +1,6 @@
 local Assembler={}
 local op={NOP=0x00,LDAI=0x01,LDBI=0x02,LDCI=0x03,LDDI=0x04,LDA=0x05,STA=0x06,ADD=0x07,SUB=0x08,AND=0x09,OR=0x0A,XOR=0x0B,INC=0x0C,DEC=0x0D,JMP=0x0E,JZ=0x0F,JNZ=0x10,JC=0x11,JNC=0x12,CMP=0x13,OUT=0x14,IN=0x15,PUSH=0x16,POP=0x17,CALL=0x18,RET=0x19,SHL=0x1A,SHR=0x1B,ROL=0x1C,ROR=0x1D,HLT=0x1E}
-local function num(s) if s:sub(1,2)=='0x' then return tonumber(s,16) elseif s:sub(1,2)=='0b' then return tonumber(s:sub(3),2) else return tonumber(s) end end
+local function num(s) if s:sub(1,2)=='0x' then return tonumber(s:sub(3),16) elseif s:sub(1,2)=='0b' then return tonumber(s:sub(3),2) else return tonumber(s) end end
 local function words(line) local t={}; for x in line:gmatch('%S+') do t[#t+1]=x:gsub(',','') end; return t end
 local function addr(v) return {v&0xFF,(v>>8)&0xFF} end
 function Assembler.assemble(src)
