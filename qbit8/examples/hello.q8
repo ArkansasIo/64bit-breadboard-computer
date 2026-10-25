@@ -1,0 +1,9 @@
+; QBit-8 UART example
+; UART data register = F000
+LDAI 72
+OUT 0xF000
+LDAI 105
+OUT 0xF000
+LDAI 10
+OUT 0xF000
+HLT
