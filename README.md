@@ -119,6 +119,7 @@ This repository defines a design baseline, not a validated pin-by-pin build. Bef
 
 - [Project status and implementation roadmap](docs/PROJECT_STATUS_AND_ROADMAP.md)
 - [Test and validation strategy](docs/TEST_AND_VALIDATION_STRATEGY.md)
+- [Lua model API and opcode contract](docs/LUA_MODEL_API.md)
 - [Architecture](docs/ARCHITECTURE.md)
 - [Hardware](docs/HARDWARE.md)
 - [Bus](docs/BUS.md)
