@@ -1,0 +1,11 @@
+; Arithmetic and conditional branch example
+LDAI 10
+LDBI 10
+ADD
+JZ equal
+LDAI 0
+JMP done
+equal:
+LDAI 1
+done:
+HLT
