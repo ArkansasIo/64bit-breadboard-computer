@@ -117,6 +117,8 @@ This repository defines a design baseline, not a validated pin-by-pin build. Bef
 
 ## Documentation
 
+- [Project status and implementation roadmap](docs/PROJECT_STATUS_AND_ROADMAP.md)
+- [Test and validation strategy](docs/TEST_AND_VALIDATION_STRATEGY.md)
 - [Architecture](docs/ARCHITECTURE.md)
 - [Hardware](docs/HARDWARE.md)
 - [Bus](docs/BUS.md)
